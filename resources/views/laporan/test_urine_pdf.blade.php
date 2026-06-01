@@ -1,0 +1,1 @@
+@include('laporan.test_urine_template')

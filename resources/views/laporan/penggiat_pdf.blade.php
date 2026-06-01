@@ -1,0 +1,1 @@
+@include('laporan.penggiat_template')

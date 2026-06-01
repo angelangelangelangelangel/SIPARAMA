@@ -1,0 +1,1 @@
+@include('laporan.desa_bersinar_template')
