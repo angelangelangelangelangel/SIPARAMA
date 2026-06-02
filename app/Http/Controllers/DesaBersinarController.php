@@ -160,7 +160,7 @@ class DesaBersinarController extends Controller
 
         $desa = DesaBersinar::findOrFail($id);
 
-        return redirect('/desa-bersinar/detail/' . $desa->slug);
+       return redirect('/desa-bersinar/' . $desa->slug);
 }
 
     /* UPDATE KEGIATAN */
@@ -181,7 +181,7 @@ class DesaBersinarController extends Controller
 
         $desa = DesaBersinar::findOrFail($data->desa_id);
 
-    return redirect('/desa-bersinar/detail/' . $desa->slug);
+     return redirect('/desa-bersinar/' . $desa->slug);
     }
 
     /* HAPUS KEGIATAN */
@@ -199,7 +199,7 @@ class DesaBersinarController extends Controller
 
         $desa = DesaBersinar::findOrFail($desa_id);
 
-    return redirect('/desa-bersinar/detail/' . $desa->slug);
+    return redirect('/desa-bersinar/' . $desa->slug);
     }
 
     /* REKAP */

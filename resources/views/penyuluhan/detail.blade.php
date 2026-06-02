@@ -248,12 +248,6 @@
         <p>Informasi detail kegiatan penyuluhan SIPARAMA</p>
     </div>
 
-    <button type="button"
-            onclick="openModal()"
-            class="btn-add">
-        <i class="fa-solid fa-plus"></i>
-        Tambah Detail
-    </button>
 </div>
 
 
@@ -291,7 +285,6 @@
                     <th>Jenis Media</th>
                     <th>Jenis Kegiatan</th>
                     <th>Jumlah Paket</th>
-                    <th>Aksi</th>
                 </tr>
             </thead>
 
@@ -308,52 +301,6 @@
     <td>{{ $item->jenis_kegiatan }}</td>
 
     <td>{{ $item->jumlah_paket }}</td>
-
-    <td class="action-cell">
-
-        <div style="display:flex; justify-content:center; gap:8px;">
-
-            <button type="button"
-                    onclick='editDetail(
-                        "{{ $item->id }}",
-                        @json($item->jenis_media),
-                        @json($item->jenis_kegiatan),
-                        @json($item->jumlah_paket)
-                    )'
-                    style="
-                        width:38px;
-                        height:38px;
-                        border:none;
-                        border-radius:10px;
-                        background:#dbeafe;
-                        color:#2563eb;
-                        cursor:pointer;
-                    ">
-                <i class="fa-solid fa-pen"></i>
-            </button>
-
-            <form action="/detail-penyuluhan/{{ $item->id }}" method="POST">
-                @csrf
-                @method('DELETE')
-
-                <button type="submit"
-                        onclick="return confirm('Yakin hapus detail?')"
-                        style="
-                            width:38px;
-                            height:38px;
-                            border:none;
-                            border-radius:10px;
-                            background:#fee2e2;
-                            color:#dc2626;
-                            cursor:pointer;
-                        ">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </form>
-
-        </div>
-
-    </td>
 
 </tr>
 
@@ -376,161 +323,7 @@
 </div>
 
 
-<!-- MODAL TAMBAH -->
-<div class="modal" id="modalForm">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-            <div class="modal-title">
-                Tambah Detail Kegiatan
-            </div>
-
-            <button type="button"
-                    class="modal-close"
-                    onclick="closeModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <form action="/penyuluhan/{{ $data->id }}/detail" method="POST">
-            @csrf
-
-            <div class="modal-form-grid">
-
-                <select name="jenis_media" required>
-                    <option value="">Pilih Jenis Media</option>
-                    <option value="Konvensional">Konvensional</option>
-                    <option value="Cetak">Cetak</option>
-                    <option value="Penyiaran">Penyiaran</option>
-                    <option value="Online">Online</option>
-                </select>
-
-                <input type="text"
-                       name="jenis_kegiatan"
-                       placeholder="Jenis Kegiatan"
-                       required>
-
-                <input type="number"
-                       name="jumlah_paket"
-                       placeholder="Jumlah Paket"
-                       required>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button type="button"
-                        class="btn-secondary"
-                        onclick="closeModal()">
-                    Batal
-                </button>
-
-                <button type="submit"
-                        class="btn-primary">
-                    Simpan Detail
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<!-- MODAL EDIT -->
-<div class="modal" id="editModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-            <div class="modal-title">
-                Edit Detail Kegiatan
-            </div>
-
-            <button type="button"
-                    class="modal-close"
-                    onclick="closeEditModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <form id="editForm" method="POST">
-            @csrf
-            @method('PUT')
-
-            <div class="modal-form-grid">
-
-                <select name="jenis_media"
-                        id="edit_jenis_media"
-                        required>
-
-                    <option value="Konvensional">Konvensional</option>
-                    <option value="Cetak">Cetak</option>
-                    <option value="Penyiaran">Penyiaran</option>
-                    <option value="Online">Online</option>
-
-                </select>
-
-                <input type="text"
-                       name="jenis_kegiatan"
-                       id="edit_jenis_kegiatan"
-                       required>
-
-                <input type="number"
-                       name="jumlah_paket"
-                       id="edit_jumlah_paket"
-                       required>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button type="button"
-                        class="btn-secondary"
-                        onclick="closeEditModal()">
-                    Batal
-                </button>
-
-                <button type="submit"
-                        class="btn-primary">
-                    Update Detail
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
 <script>
-function openModal(){
-    document.getElementById('modalForm').classList.add('show');
-}
-
-function closeModal(){
-    document.getElementById('modalForm').classList.remove('show');
-}
-
-function editDetail(id, media, kegiatan, jumlah){
-
-    document.getElementById('editModal').classList.add('show');
-
-    document.getElementById('editForm').action =
-        '/detail-penyuluhan/' + id;
-
-    document.getElementById('edit_jenis_media').value = media;
-    document.getElementById('edit_jenis_kegiatan').value = kegiatan;
-    document.getElementById('edit_jumlah_paket').value = jumlah;
-}
-
-function closeEditModal(){
-    document.getElementById('editModal').classList.remove('show');
-}
 
 document.addEventListener('click', function(e){
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Dokumentasi;
 use App\Models\TestUrine;
 use App\Models\Penyuluhan;
+use App\Models\DetailPenyuluhan;
 use App\Models\DesaBersinar;
 use App\Models\DetailDesaBersinar;
 
@@ -75,31 +76,61 @@ class DokumentasiController extends Controller
                 $keyword = $request->keyword;
                 $modul   = $request->modul;
                 if ($modul == 'test-urine') {
-                    $data = TestUrine::where('nama_instansi', 'like', "%{$keyword}%")
-                        ->latest()
-                        ->limit(10)
-                        ->get()
-                        ->map(function ($item) {
-                            return [
-                                'id' => $item->id,
-                                'label' => $item->nama_instansi . ' - ' .
-                                        date('d M Y', strtotime($item->tanggal_kegiatan)),
-                            ];
-                        });
-                } elseif ($modul == 'penyuluhan') {
-                    $data = Penyuluhan::where('nama_tempat', 'like', "%{$keyword}%")
-                        ->latest()
-                        ->limit(10)
-                        ->get()
-                        ->map(function ($item) {
-                            return [
-                                'id' => $item->id,
-                                'label' => $item->nama_tempat . ' - ' .
-                                        date('d M Y', strtotime($item->tanggal_kegiatan)),
-                            ];
-                        });
 
-                } elseif ($modul == 'desa-bersinar') {
+            $query = TestUrine::query();
+
+            if (!empty($keyword)) {
+                $query->where(
+                    'nama_instansi',
+                    'like',
+                    "%{$keyword}%"
+                );
+            }
+
+            $data = $query
+                ->latest()
+                ->limit(50)
+                ->get()
+                ->map(function ($item) {
+
+                    return [
+                        'id' => $item->id,
+                        'label' => $item->nama_instansi . ' - ' .
+                            date(
+                                'd M Y',
+                                strtotime($item->tanggal_kegiatan)
+                            ),
+                    ];
+
+                });
+
+        }
+                elseif ($modul == 'penyuluhan') {
+
+    $data = DetailPenyuluhan::with('penyuluhan')
+        ->where('jenis_kegiatan', 'like', "%{$keyword}%")
+        ->latest()
+        ->limit(10)
+        ->get()
+        ->map(function ($item) {
+
+            return [
+                'id' => $item->penyuluhan_id,
+                'label' =>
+                    $item->jenis_kegiatan . ' - ' .
+                    $item->penyuluhan->nama_tempat . ' - ' .
+                    date(
+                        'd M Y',
+                        strtotime(
+                            $item->penyuluhan->tanggal_kegiatan
+                        )
+                    ),
+            ];
+
+        });
+
+}
+ elseif ($modul == 'desa-bersinar') {
 
                     $desaId = $request->desa_id;
 

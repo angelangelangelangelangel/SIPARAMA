@@ -280,7 +280,7 @@ td{
             BNN Provinsi Kalimantan Selatan
         </div>
 
-        <div style="height:90px;"></div>
+        <div style="height:70px;"></div>
 
         <div style="font-weight:bold;">
             Rakhmadiansyah, S.Kep

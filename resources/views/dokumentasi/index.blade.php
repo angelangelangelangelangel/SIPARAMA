@@ -425,7 +425,15 @@
                     <tr>
                         <th>No</th>
                         <th>Preview</th>
-                        <th>Nama Kegiatan</th>
+                       <th>
+                            @if($modul == 'test-urine')
+                                Nama Instansi
+                            @elseif($modul == 'penyuluhan')
+                                Nama Tempat
+                            @elseif($modul == 'desa-bersinar')
+                                Kegiatan
+                            @endif
+                        </th>
                         <th>Tanggal</th>
                         <th>Kategori</th>
                         <th>Aksi</th>
@@ -625,13 +633,23 @@
             <div class="form-group">
 
                 <label class="form-label">
-                    Cari Kegiatan
-                </label>
+                   
+                <label class="form-label">
+                {{ $modul == 'test-urine'
+                    ? ''
+                    : ($modul == 'penyuluhan'
+                        ? ''
+                        : '') }}
+            </label>
 
-                <input type="text"
-                       id="searchKegiatan"
-                       class="form-input"
-                       placeholder="Ketik nama kegiatan...">
+            <input type="text"
+                id="searchKegiatan"
+                class="form-input"
+                placeholder="{{ $modul == 'test-urine'
+                        ? 'Cari nama instansi...'
+                        : ($modul == 'penyuluhan'
+                            ? 'Cari jenis kegiatan...'
+                            : 'Cari kegiatan...') }}">
 
                 <div class="suggestion-box"
                      id="suggestionBox"></div>
@@ -916,6 +934,17 @@ function loadSuggestion(keyword, targetBox, targetInput, targetId){
 
 }
 
+        searchKegiatan.addEventListener('focus', function(){
+
+            loadSuggestion(
+                '',
+                suggestionBox,
+                searchKegiatan,
+                kegiatanId
+            );
+
+        });
+
 if(searchKegiatan){
 
     searchKegiatan.addEventListener('keyup', function(){
@@ -937,6 +966,18 @@ if(searchKegiatan){
     });
 
 }
+
+    editSearchKegiatan.addEventListener('focus', function(){
+
+        loadSuggestion(
+            '',
+            editSuggestionBox,
+            editSearchKegiatan,
+            editKegiatanId
+        );
+
+    });
+
 
 if(editSearchKegiatan){
 

@@ -392,7 +392,7 @@
                 <tr>
                     <th>No</th>
                     <th>Tanggal</th>
-                    <th>Tempat</th>
+                    <th>Nama Tempat</th>
                     <th>Jenis Media</th>
                     <th>Instansi</th>
                     <th>Sasaran</th>
@@ -448,16 +448,20 @@
             <div style="display:flex; justify-content:center; gap:8px;">
 
                 <button type="button"
-                        onclick='editData(
-                            "{{ $item->id }}",
-                            @json($item->tanggal_kegiatan),
-                            @json($item->nama_tempat),
-                            @json($item->jenis_instansi),
-                            @json($item->kategori_pendidikan),
-                            @json($item->sasaran),
-                            @json($item->jumlah_sebaran),
-                            @json($item->keterangan)
-                        )'
+                       onclick='editData(
+                                "{{ $item->id }}",
+                                @json($item->tanggal_kegiatan),
+                                @json($item->nama_tempat),
+                                @json($item->jenis_instansi),
+                                @json($item->kategori_pendidikan),
+                                @json($item->sasaran),
+                                @json($item->jumlah_sebaran),
+                                @json($item->keterangan),
+
+                                @json(optional($item->detail->first())->jenis_media),
+                                @json(optional($item->detail->first())->jenis_kegiatan),
+                                @json(optional($item->detail->first())->jumlah_paket)
+                            )'
                         style="
                             width:38px;
                             height:38px;
@@ -672,6 +676,30 @@
                        placeholder="Jumlah Sebaran"
                        required>
 
+                       <select name="jenis_media"
+                        id="jenis_media"
+                        required>
+
+                    <option value="">Pilih Jenis Media</option>
+                    <option value="Konvensional">Konvensional</option>
+                    <option value="Cetak">Cetak</option>
+                    <option value="Penyiaran">Penyiaran</option>
+                    <option value="Online">Online</option>
+
+                </select>
+
+                <input type="text"
+                    name="jenis_kegiatan"
+                    id="jenis_kegiatan"
+                    placeholder="Jenis Kegiatan"
+                    required>
+
+                <input type="number"
+                    name="jumlah_paket"
+                    id="jumlah_paket"
+                    placeholder="Jumlah Paket"
+                    required>
+
                 <textarea name="keterangan"
                           id="keterangan"
                           class="full"
@@ -768,7 +796,10 @@ function editData(
     kategori,
     sasaran,
     jumlah,
-    keterangan
+    keterangan,
+    jenis_media,
+    jenis_kegiatan,
+    jumlah_paket
 ){
 
     openModal();
@@ -789,6 +820,9 @@ function editData(
     document.getElementById('sasaran').value = sasaran ?? '';
     document.getElementById('jumlah_sebaran').value = jumlah ?? '';
     document.getElementById('keterangan').value = keterangan ?? '';
+    document.getElementById('jenis_media').value = jenis_media ?? '';
+    document.getElementById('jenis_kegiatan').value = jenis_kegiatan ?? '';
+    document.getElementById('jumlah_paket').value = jumlah_paket ?? '';
 }
 
 /* CLICK OUTSIDE */

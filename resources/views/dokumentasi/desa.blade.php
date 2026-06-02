@@ -213,15 +213,16 @@
 
             <table class="data-table">
 
-                <thead>
+               <thead>
                     <tr>
                         <th>No</th>
-                        <th>Desa</th>
+                        <th>Jenis Wilayah</th>
+                        <th>Nama Wilayah</th>
                         <th>Kabupaten / Kota</th>
                         <th>Jumlah Kegiatan</th>
                         <th>Aksi</th>
-                    </tr>
-                </thead>
+                </tr>
+             </thead>
 
                 <tbody>
 
@@ -231,6 +232,10 @@
 
                             <td>
                                 {{ $index + 1 }}
+                            </td>
+
+                            <td>
+                                {{ $item->jenis_wilayah }}
                             </td>
 
                             <td>
@@ -276,7 +281,7 @@
 
                         <tr>
 
-                            <td colspan="5">
+                            <td colspan="6">
 
                                 <div class="empty-box">
                                     Belum ada data desa bersinar.
