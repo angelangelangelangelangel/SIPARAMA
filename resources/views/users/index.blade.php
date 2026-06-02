@@ -457,6 +457,7 @@
                                             {{ $item->id }},
                                             @json($item->name),
                                             @json($item->username),
+                                            @json($item->email),
                                             {{ $item->role_id }},
                                             @json($item->status)
                                         )'>
@@ -552,6 +553,11 @@
                        name="username"
                        placeholder="Username"
                        required>
+                
+                       <input type="email"
+                            name="email"
+                            placeholder="Email"
+                            required>
 
                 <div style="position:relative;">
                 <input type="password"
@@ -628,6 +634,11 @@
                        name="username"
                        id="edit_username"
                        required>
+
+                    <input type="email"
+                            name="email"
+                            id="edit_email"
+                            required>
 
                 <div style="position:relative;">
                 <input type="password"
@@ -723,12 +734,13 @@ function closeAddModal(){
     document.getElementById('addModal').classList.remove('show');
 }
 
-function openEditModal(id, name, username, role, status){
+function openEditModal(id, name, username, email, role, status){{
     closeAllMenus();
 
     document.getElementById('editForm').action = '/users/' + id;
     document.getElementById('edit_name').value = name;
     document.getElementById('edit_username').value = username;
+    document.getElementById('edit_email').value = email;
     document.getElementById('edit_role').value = role;
     document.getElementById('edit_status').value = status;
 

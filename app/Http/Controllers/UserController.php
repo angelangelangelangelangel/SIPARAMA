@@ -36,16 +36,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
-            'password' => 'required|min:6',
-            'role_id' => 'required|exists:roles,id',
-            'status' => 'required|in:Aktif,Nonaktif',
-        ]);
-
+        'name' => 'required|string|max:255',
+        'username' => 'required|string|max:255|unique:users,username',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:6',
+        'role_id' => 'required|exists:roles,id',
+        'status' => 'required|in:Aktif,Nonaktif',
+    ]);
         User::create([
             'name' => $request->name,
             'username' => $request->username,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
             'status' => $request->status,
@@ -67,17 +68,19 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
             'username' => 'required|string|max:255|unique:users,username,' . $id,
             'role_id' => 'required|exists:roles,id',
             'status' => 'required|in:Aktif,Nonaktif',
         ]);
 
         $updateData = [
-            'name' => $request->name,
-            'username' => $request->username,
-            'role_id' => $request->role_id,
-            'status' => $request->status,
-        ];
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'role_id' => $request->role_id,
+                'status' => $request->status,
+            ];
 
         if ($request->filled('password')) {
             $updateData['password'] = Hash::make($request->password);
