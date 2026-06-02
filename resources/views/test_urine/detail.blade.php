@@ -388,20 +388,23 @@
                     <i class="fa-solid fa-pen"></i>
                 </button>
 
-                <form action="/peserta/{{ $item->id }}"
-                      method="POST"
-                      onsubmit="return confirm('Yakin hapus peserta?')">
+               <form action="/peserta/{{ $item->id }}" method="POST">
+                            @csrf
+                            @method('DELETE')
 
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit"
-                            class="action-btn delete-btn">
-                        <i class="fa-solid fa-trash"></i>
+                            <button type="submit"
+                                    style="
+                                    width:38px;
+                                    height:38px;
+                                    border:none;
+                                    border-radius:10px;
+                                    background:#fee2e2;
+                                    color:#dc2626;
+                                    cursor:pointer;
+                                    ">
+                                    <i class="fa-solid fa-trash"></i>
                     </button>
-
                 </form>
-
             </div>
 
         </td>

@@ -65,7 +65,7 @@ td{
 }
 
 .footer-right{
-    width:320px;
+    width:300px;
     margin-left:auto;
     text-align:center;
     font-size:11px;

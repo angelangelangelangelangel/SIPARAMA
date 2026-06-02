@@ -28,7 +28,9 @@ class PesertaTestUrineController extends Controller
             'riwayat_obat'      => $request->riwayat_obat,
         ]);
 
-        return redirect('/test-urine/' . $request->test_urine_id . '/detail');
+        $testUrine = TestUrine::findOrFail($request->test_urine_id);
+
+        return redirect('/test-urine/' . $testUrine->slug);
     }
 
     /* UPDATE PESERTA */
@@ -51,7 +53,9 @@ class PesertaTestUrineController extends Controller
             'riwayat_obat'      => $request->riwayat_obat,
         ]);
 
-       return redirect('/test-urine/' . $data->test_urine_id . '/detail');
+       $testUrine = TestUrine::findOrFail($data->test_urine_id);
+
+    return redirect('/test-urine/' . $testUrine->slug);
     }
 
     /* HAPUS PESERTA */
@@ -63,6 +67,8 @@ class PesertaTestUrineController extends Controller
 
         $data->delete();
 
-        return redirect('/test-urine/' . $data->test_urine_id . '/detail');
+        $testUrine = TestUrine::findOrFail($testUrineId);
+
+        return redirect('/test-urine/' . $testUrine->slug);
     }
 }

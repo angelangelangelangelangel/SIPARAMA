@@ -70,24 +70,34 @@ class PenyuluhanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal_kegiatan' => 'required|date',
-            'nama_tempat'      => 'required',
-            'nama_tempat' => $request->nama_tempat,
-            'slug' => Str::slug(str_replace('.', ' ', $request->nama_tempat)),
-            'jenis_instansi'   => 'required',
-            'sasaran'          => 'required',
-            'jumlah_sebaran'   => 'required|numeric',
-        ]);
+        'tanggal_kegiatan' => 'required|date',
+        'nama_tempat'      => 'required',
+        'jenis_instansi'   => 'required',
+        'sasaran'          => 'required',
+        'jumlah_sebaran'   => 'required|numeric',
+
+        'jenis_media'      => 'required',
+        'jenis_kegiatan'   => 'required',
+        'jumlah_paket'     => 'required|numeric',
+    ]);
 
         $penyuluhan = Penyuluhan::create([
-            'tanggal_kegiatan'    => $request->tanggal_kegiatan,
-            'nama_tempat'         => $request->nama_tempat,
-            'jenis_instansi'      => $request->jenis_instansi,
-            'kategori_pendidikan' => $request->kategori_pendidikan,
-            'sasaran'             => $request->sasaran,
-            'jumlah_sebaran'      => $request->jumlah_sebaran,
-            'keterangan'          => $request->keterangan,
-        ]);
+        'tanggal_kegiatan'    => $request->tanggal_kegiatan,
+        'nama_tempat'         => $request->nama_tempat,
+        'slug' => Str::slug(str_replace('.', ' ', $request->nama_tempat)),
+        'jenis_instansi'      => $request->jenis_instansi,
+        'kategori_pendidikan' => $request->kategori_pendidikan,
+        'sasaran'             => $request->sasaran,
+        'jumlah_sebaran'      => $request->jumlah_sebaran,
+        'keterangan'          => $request->keterangan,
+    ]);
+
+        DetailPenyuluhan::create([
+                'penyuluhan_id'  => $penyuluhan->id,
+                'jenis_media'    => $request->jenis_media,
+                'jenis_kegiatan' => $request->jenis_kegiatan,
+                'jumlah_paket'   => $request->jumlah_paket,
+            ]);
 
         logActivity(
             'Penyuluhan',
@@ -112,13 +122,16 @@ class PenyuluhanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'tanggal_kegiatan' => 'required|date',
-            'nama_tempat'      => 'required',
-            'slug' => Str::slug(str_replace('.', ' ', $request->nama_tempat)),
-            'jenis_instansi'   => 'required',
-            'sasaran'          => 'required',
-            'jumlah_sebaran'   => 'required|numeric',
-        ]);
+        'tanggal_kegiatan' => 'required|date',
+        'nama_tempat'      => 'required',
+        'jenis_instansi'   => 'required',
+        'sasaran'          => 'required',
+        'jumlah_sebaran'   => 'required|numeric',
+
+        'jenis_media'      => 'required',
+        'jenis_kegiatan'   => 'required',
+        'jumlah_paket'     => 'required|numeric',
+    ]);
 
         $data = Penyuluhan::findOrFail($id);
 
@@ -131,6 +144,16 @@ class PenyuluhanController extends Controller
             'jumlah_sebaran'      => $request->jumlah_sebaran,
             'keterangan'          => $request->keterangan,
         ]);
+
+        $detail = DetailPenyuluhan::firstOrNew([
+        'penyuluhan_id' => $data->id
+        ]);
+
+        $detail->jenis_media    = $request->jenis_media;
+        $detail->jenis_kegiatan = $request->jenis_kegiatan;
+        $detail->jumlah_paket   = $request->jumlah_paket;
+
+        $detail->save();
 
         logActivity(
             'Penyuluhan',
