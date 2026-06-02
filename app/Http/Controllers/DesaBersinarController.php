@@ -57,7 +57,6 @@ class DesaBersinarController extends Controller
         'satker'             => $request->satker,
         'kab_kota'           => $request->kab_kota,
         'nama_desa'          => $request->nama_desa,
-        'nama_desa' => $request->nama_desa,
         'slug' => Str::slug(str_replace('.', ' ', $request->nama_desa)),
         'jenis_wilayah'      => $request->jenis_wilayah,
         'status_kerawanan'   => $request->status_kerawanan,

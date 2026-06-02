@@ -136,14 +136,15 @@ class PenyuluhanController extends Controller
         $data = Penyuluhan::findOrFail($id);
 
         $data->update([
-            'tanggal_kegiatan'    => $request->tanggal_kegiatan,
-            'nama_tempat'         => $request->nama_tempat,
-            'jenis_instansi'      => $request->jenis_instansi,
-            'kategori_pendidikan' => $request->kategori_pendidikan,
-            'sasaran'             => $request->sasaran,
-            'jumlah_sebaran'      => $request->jumlah_sebaran,
-            'keterangan'          => $request->keterangan,
-        ]);
+        'tanggal_kegiatan'    => $request->tanggal_kegiatan,
+        'nama_tempat'         => $request->nama_tempat,
+        'slug'                => Str::slug(str_replace('.', ' ', $request->nama_tempat)),
+        'jenis_instansi'      => $request->jenis_instansi,
+        'kategori_pendidikan' => $request->kategori_pendidikan,
+        'sasaran'             => $request->sasaran,
+        'jumlah_sebaran'      => $request->jumlah_sebaran,
+        'keterangan'          => $request->keterangan,
+    ]);
 
         $detail = DetailPenyuluhan::firstOrNew([
         'penyuluhan_id' => $data->id

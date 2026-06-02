@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('nama_instansi');
             $table->string('jenis_instansi');
-            $table->string('kategori_pendidikan')->nulllable();
+            $table->string('kategori_pendidikan')->nullable();
             $table->string('sasaran');
             $table->text('tujuan_test');
 
