@@ -734,7 +734,7 @@ function closeAddModal(){
     document.getElementById('addModal').classList.remove('show');
 }
 
-function openEditModal(id, name, username, email, role, status){{
+function openEditModal(id, name, username, email, role, status){
     closeAllMenus();
 
     document.getElementById('editForm').action = '/users/' + id;
