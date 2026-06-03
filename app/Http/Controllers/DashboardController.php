@@ -6,7 +6,7 @@ use App\Models\TestUrine;
 use App\Models\Penyuluhan;
 use App\Models\Penggiat;
 use App\Models\DesaBersinar;
-use App\Models\Activitylog;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -91,7 +91,7 @@ class DashboardController extends Controller
     $system_logs = collect();
 
     if (auth()->user()->role->name == 'Admin') {
-        $system_logs = Activitylog::with('user')
+       $system_logs = ActivityLog::with('user')
             ->latest()
             ->take(8)
             ->get();
