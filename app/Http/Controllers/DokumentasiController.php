@@ -165,8 +165,17 @@ class DokumentasiController extends Controller
                     'file' => 'required|file|mimes:jpg,jpeg,png,webp,pdf,doc,docx|max:5120',
                 ]);
                 $file = $request->file('file');
+
+                $folder = public_path('uploads');
+
+                if (!file_exists($folder)) {
+                    mkdir($folder, 0777, true);
+                }
+
                 $namaFile = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads'), $namaFile);
+
+                $file->move($folder, $namaFile);
+
                 Dokumentasi::create([
                     'modul' => $request->modul,
                     'kegiatan_id' => $request->kegiatan_id,
@@ -186,14 +195,25 @@ class DokumentasiController extends Controller
                 'kegiatan_id' => $request->kegiatan_id
             ];
             if ($request->hasFile('file')) {
-                $file = $request->file('file');
-                $namaFile = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads'), $namaFile);
-                if ($data->file && file_exists(public_path('uploads/' . $data->file))) {
-                    unlink(public_path('uploads/' . $data->file));
-                }
-                $update['file'] = $namaFile;
+
+            $file = $request->file('file');
+
+            $folder = public_path('uploads');
+
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
             }
+
+            $namaFile = time() . '_' . $file->getClientOriginalName();
+
+            $file->move($folder, $namaFile);
+
+            if ($data->file && file_exists(public_path('uploads/' . $data->file))) {
+                unlink(public_path('uploads/' . $data->file));
+            }
+
+            $update['file'] = $namaFile;
+        }
             $data->update($update);
             return redirect()->back()
                 ->with('success', 'Dokumentasi berhasil diupdate');
